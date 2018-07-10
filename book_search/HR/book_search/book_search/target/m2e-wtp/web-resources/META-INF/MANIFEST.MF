@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: book_search
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: gpflg
+Implementation-Vendor-Id: com.kabank
+Build-Jdk: 1.8.0_171
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/book_search
+Created-By: Maven Integration for Eclipse
+
