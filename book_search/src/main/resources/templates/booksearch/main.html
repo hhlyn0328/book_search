@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/main_layout">
+
+<th:block layout:fragment="html_head">
+	<title>Book Search</title>
+</th:block>
+
+<th:block layout:fragment="custom_css">
+</th:block>
+<th:block layout:fragment="custom_js">
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+	var pageUri = /*[[${pageUri}]]*/ '';
+	var searchField = /*[[${filterHelper.searchField}]]*/ 'all';
+	var searchValue = /*[[${filterHelper.searchValue}]]*/ '';
+	var sortField = /*[[${filterHelper.sortField}]]*/ 'accuracy';
+	var sortDir = /*[[${filterHelper.sortDir}]]*/ 'ASC';
+	var page = /*[[${filterHelper.page}]]*/ 1;
+	var pageSize = /*[[${filterHelper.pageSize}]]*/ 10;
+	
+	function search(){
+		searchField = $("#searchField option:selected").val();
+		searchValue = $("#searchValue").val();
+		call();
+	}
+	
+	function sort(field){
+		sortField = field;
+		call();
+	}
+	
+	function move(num){
+		page = num;
+		call();
+	}
+	
+	function changeSize(size){
+		pageSize = size;
+		call();
+	}
+	
+	function call(){
+		debugger;
+		var uri = StringFormat("{0}?searchField={1}&searchValue={2}&sortField={3}&sortDir={4}&page={5}&pageSize={6}",
+				pageUri, searchField, searchValue, sortField, sortDir, page, pageSize);
+
+		
+		location.href = uri;
+	}
+
+/*]]>*/
+</script>
+</th:block>
+
+<th:block layout:fragment="content_body">
+	<div class="content-wrapper">
+		<div class="container">
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-6">
+							<h3>책 검색</h3>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group mb-2" th:object="${filterHelper}">
+								<div class="input-group mb-2">
+									<div class="input-group-prepend">
+										<select class="form-control" th:field="*{searchField}">
+									      <option th:value='all' >전체</option>
+									      <option th:value='title' >책 제목</option>
+									      <option th:value='overview' >책 소개</option>
+									      <option th:value='publisher' >출판사</option>
+									    </select>								
+									</div>
+									<input type="text" class="form-control" th:field="*{searchValue}">
+									<div class="input-group-append">
+									    <button th:onclick="|search()|" class="btn btn-outline-warning active">검색</button>										   
+									 </div>
+								</div>
+							</div>						
+						</div>
+					</div>
+					
+				</div>
+
+			</div>
+
+			<div class="card">
+				<div class="card-body">
+					<div class="btn-group float-right mb-2" role="group" aria-label="Basic example">
+					  <button type="button" th:onclick="|sort('accuracy')|" class="btn btn-outline-warning" th:classappend="${filterHelper.sortField == 'accuracy'}? active : ''">정확도순<span class="oi oi-arrow-bottom"></span></button>
+					  <button type="button" th:onclick="|sort('recency')|" class="btn btn-outline-warning" th:classappend="${filterHelper.sortField == 'recency'}? active : ''">판매량순<span class="oi oi-arrow-bottom"></span></button>
+					  <button type="button" th:onclick="|sort('sales')|" class="btn btn-outline-warning" th:classappend="${filterHelper.sortField == 'sales'}? active : ''">발행일순<span class="oi oi-arrow-bottom"></span></button>
+					</div>
+					<table class="table table-bordered" style="margin-top: 20px;">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">분류</th>
+								<th scope="col">출판사</th>
+								<th scope="col">제목</th>
+								<th scope="col">ISBN</th>
+								<th scope="col">작가</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="book, i : ${books}">
+								<td th:text="${i.count}"></td>
+								<td><img th:attr="src=@{${book.thumbnail}}" /></td>
+								<td th:text="${book.publisher}"></td>
+								<td><a th:text="${book.title}" th:href="@{${book.url}}" target="_blank"></a></td>
+								<td th:text="${book.isbn}"></td>
+								<td th:text="${book.authors}"></td>
+							</tr>
+							<tr th:if="${pageHelper.empty}">
+								<td colspan="5">검색결과가 없습니다.</td>
+							</tr>
+						</tbody>
+					</table>
+					<div th:replace="fragments/pagenation :: pagenation" th:with="pageHelper=${pageHelper}" ></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</th:block>
+
+</html>

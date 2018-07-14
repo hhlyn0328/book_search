@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<body th:fragment="mainBody">
+	<nav th:fragment="pagenation" th:if="${!pageHelper.empty}">
+		<ul class="pagination justify-content-center">
+			<li class="page-item" th:if="${!pageHelper.start}"><button
+					class="page-link" th:onclick="|move(${pageHelper.beginPageNum-1})|">이전</button></li>
+			<li class="page-item"
+				th:classappend="${pageHelper.currentPageNum == i}? active : ''"
+				th:each="i : ${#numbers.sequence(pageHelper.beginPageNum, pageHelper.endPageNum)}">
+				<button class="page-link" th:text="${i}" th:onclick="|move(${i})|"></button>
+			</li>
+			<li class="page-item" th:if="${!pageHelper.end}"><button
+					class="page-link" th:onclick="|move(${pageHelper.endPageNum+1})|">다음</button></li>
+		</ul>
+	</nav>
+</body>
+</html>

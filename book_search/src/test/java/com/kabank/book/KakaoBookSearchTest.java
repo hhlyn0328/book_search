@@ -11,13 +11,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.kabank.book.external.KakaoBookSearchService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class KakaoBookSearchTest {
-	@Autowired
-	private KakaoBookSearchService bookSearchService;
+/*	@Autowired
+	private KakaoBookRepository bookSearchService;
 
 	@Test
 	public void searchByMultiValueMapTest() throws IOException {
@@ -34,5 +33,5 @@ public class KakaoBookSearchTest {
 		documents.forEach(d -> {
 			System.out.println("title : " + d.get("title") + ", date : " + d.get("datetime"));
 		});
-	}
+	}*/
 }
