@@ -1,0 +1,30 @@
+.log {background: #001b4a;}
+.sign {background: #3b3b3b;}
+
+.content-wrapper {
+    padding: 2rem 1.5rem;
+}
+.content-wrapper {
+
+    margin-left: 215px;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    transition: all .8s ease;
+    width: calc(100% - 215px);
+}
+
+.login {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border-radius: 0.25rem;
+}
+
+.full-page-wrapper {
+    margin-left: 0;
+    width: 100%;
+}

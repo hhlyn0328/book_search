@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <div th:fragment="mainNav">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container">
@@ -12,17 +13,20 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav mr-auto mt-2">
-					<li class="nav-item active"><a class="nav-link" href="#">Home
-							<span class="sr-only">(current)</span>
-					</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">검색</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">히스토리</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">북마크</a>
+				<ul class="navbar-nav mr-auto mt-2 ml-3">
+					<li class="nav-item ml-3" th:classappend="${navid == 'search'} ? 'active' : '' "><a class="nav-link" th:href="@{/book/search}">검색</a></li>
+					<li class="nav-item ml-3" th:classappend="${navid == 'history'} ? 'active' : '' "><a class="nav-link" th:href="@{/book/history}">최근 검색내역</a></li>
+					<li class="nav-item ml-3" th:classappend="${navid == 'bookmark'} ? 'active' : '' "><a class="nav-link" th:href="@{/book/bookmark}">즐겨찾기</a>
 					</li>
 	
 				</ul>
-				<span class="navbar-text"> 사용자 님 반갑습니다 </span>
+				
+				<div class="navbar-text">
+					<span class="oi oi-person"></span>
+					<span sec:authentication="name"></span>
+					<span class="ml-5" onclick="logout()" style="cursor:pointer;">로그아웃</span>
+				</div>
+				
 			</div>
 		</div>
 	</nav>

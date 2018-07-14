@@ -12,14 +12,16 @@ public class PageHelper {
 	private int totalPageNum;
 	private int beginPageNum;
 	private int endPageNum;
+	private int pageSize;
 	private boolean start;
 	private boolean end;
 	private boolean empty;
 	
 	public PageHelper() { }
 	
-	public PageHelper(int page, int totalCount) {
+	public PageHelper(int page, int pageSize, int totalCount) {
 		this.currentPageNum = page;
+		this.pageSize = pageSize;
 		this.totalPageNum = totalCount;
 		this.endPageNum = Math.min((int)(Math.ceil(this.currentPageNum/10.0)*10), totalPageNum);
 		this.beginPageNum = Math.max(endPageNum - 9, 1);

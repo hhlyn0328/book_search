@@ -51,7 +51,7 @@ public class KakaoBookServiceImpl implements BookService {
 		try {
 			JsonNode node = search(params);
 			JsonNode meta = node.get("meta");
-			BeanUtils.copyProperties(new PageHelper(filter.getPage(), Integer.parseInt(meta.get("pageable_count").toString())), page);
+			BeanUtils.copyProperties(new PageHelper(filter.getPage(),filter.getPageSize(),Integer.parseInt(meta.get("pageable_count").toString())), page);
 			JsonNode documents = node.get("documents");
 			documents.forEach(d -> {
 				books.add(mapper.convertValue(d, Book.class));

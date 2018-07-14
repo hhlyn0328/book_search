@@ -27,26 +27,23 @@ public class History {
 	private Long no;
 	
 	@Column (nullable = false, length = 100)
-	private String bookName;
+	private String title;
 	
 	@Column (nullable = false, length = 100)
-	private String bookPublisher;
+	private String publisher;
 	
-	@Column (nullable = false, length = 20)
-	private String bookIsbn;
+	@Column (nullable = false)
+	private String url;
+	
+	@Column (nullable = false, length = 100)
+	private String authors;
 	
 	@Column
-	private String bookThumbnail;
-	
-	@Column 
-	private boolean isBookMark;
-	
+	private String thumbnail;
+		
 	@CreationTimestamp
 	private Timestamp createDate;
-	
-	@UpdateTimestamp
-	private Timestamp updateDate;	
 
-	private Long userNo;
+	private Long uid;
 
 }

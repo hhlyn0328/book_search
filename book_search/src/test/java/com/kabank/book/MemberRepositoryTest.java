@@ -1,6 +1,7 @@
 package com.kabank.book;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -8,21 +9,27 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kabank.book.model.BookMark;
 import com.kabank.book.model.History;
-import com.kabank.book.model.User;
-import com.kabank.book.repository.UserRepository;
+import com.kabank.book.model.Member;
+import com.kabank.book.model.Role;
+import com.kabank.book.repository.MemberRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Commit
-public class UserRepositoryTest {
+public class MemberRepositoryTest {
 	
 	@Autowired
-	private UserRepository userRepo;
+	MemberRepository memberRepo;
+	
+	@Autowired
+	PasswordEncoder pwEncoder;
 	/*
 	@Test
 	public void insertTest() {
@@ -55,21 +62,28 @@ public class UserRepositoryTest {
 	@Test
 	public void insertWithHistoryTest() {
 		IntStream.range(1, 11).forEach(i -> {
-			User user = new User();
-			user.setId("user" + i);
-			user.setPwd("pwd" + i);
-			user.setName("username" + i);
+			Member user = new Member();
+			user.setUid("user" + i);
+			user.setUpw(pwEncoder.encode("pwd" + i));
+			user.setUname("username" + i);
 			List<History> histories = new ArrayList<History>();
 			IntStream.range(0, 10).forEach(j -> {
 				History history = new History();
-				history.setBookName("book" + i + j);
-				history.setBookPublisher("Publisher" + i + j);
-				history.setBookIsbn("isbn" + i + j);
-				history.setBookMark(j%2 == 0);
+				history.setTitle("book" + i + j);
+				history.setPublisher("Publisher" + i + j);
+				history.setUrl("url" + i + j);
+				history.setAuthors("author" + i + j);
 				histories.add(history);
 			});
 			user.setHistories(histories);
-			userRepo.save(user);
+			
+			Role role = new Role();
+			role.setRoleName("BASIC");
+			user.setRoles(Arrays.asList(role));
+			
+			
+			
+			memberRepo.save(user);
 		});
 	}
 	

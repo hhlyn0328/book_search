@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/main_layout">
-
+	
 <th:block layout:fragment="html_head">
 	<title>Book Search</title>
 </th:block>
@@ -21,6 +21,14 @@
 	var sortDir = /*[[${filterHelper.sortDir}]]*/ 'ASC';
 	var page = /*[[${filterHelper.page}]]*/ 1;
 	var pageSize = /*[[${filterHelper.pageSize}]]*/ 10;
+	var token = /*[[${_csrf.token}]]*/ '';
+	var header = /*[[${_csrf.headerName}]]*/ '';
+	
+ 	$(function() {
+	    $(document).ajaxSend(function(e, xhr, options) {
+	        xhr.setRequestHeader(header, token);
+	    });
+	}); 
 	
 	function search(){
 		searchField = $("#searchField option:selected").val();
@@ -44,12 +52,42 @@
 	}
 	
 	function call(){
-		debugger;
 		var uri = StringFormat("{0}?searchField={1}&searchValue={2}&sortField={3}&sortDir={4}&page={5}&pageSize={6}",
 				pageUri, searchField, searchValue, sortField, sortDir, page, pageSize);
 
 		
 		location.href = uri;
+	}
+	
+	function addHistory(title, publisher, authors, thumbnail, detailUrl){
+		 $.ajax({
+			url: "/book/history",
+			data: { title : title,
+				publisher : publisher,
+				authors : authors,
+				thumbnail : thumbnail,
+				detailUrl : detailUrl },
+			method: "POST",
+			success: function(){
+				alert("!!!!!!!!!!");			
+			}
+		}) 
+	}
+	
+	function addBookMark(title, publisher, authors, thumbnail, detailUrl, isbn){
+		 $.ajax({
+			url: "/book/bookmark",
+			data: { title : title,
+				publisher : publisher,
+				authors : authors,
+				thumbnail : thumbnail,
+				detailUrl : detailUrl ,
+				isbn : isbn},
+			method: "POST",
+			success: function(result){
+				alert(result);			
+			}
+		}) 
 	}
 
 /*]]>*/
@@ -58,6 +96,7 @@
 
 <th:block layout:fragment="content_body">
 	<div class="content-wrapper">
+	<div th:include="fragments/main_navbar :: mainNav" th:with="navid='search'"></div>
 		<div class="container">
 			<div class="card">
 				<div class="card-body">
@@ -102,9 +141,9 @@
 								<th scope="col">#</th>
 								<th scope="col">분류</th>
 								<th scope="col">출판사</th>
-								<th scope="col">제목</th>
-								<th scope="col">ISBN</th>
+								<th scope="col">제목</th>								
 								<th scope="col">작가</th>
+								<th scope="col">상세정보</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -112,12 +151,15 @@
 								<td th:text="${i.count}"></td>
 								<td><img th:attr="src=@{${book.thumbnail}}" /></td>
 								<td th:text="${book.publisher}"></td>
-								<td><a th:text="${book.title}" th:href="@{${book.url}}" target="_blank"></a></td>
-								<td th:text="${book.isbn}"></td>
+								<td><a th:text="${book.title}" th:href="@{${book.url}}" target="_blank"></a></td>								
 								<td th:text="${book.authors}"></td>
+								<td>
+									<button th:onclick="|addHistory('${book.title}','${book.publisher}','${book.authors}','${book.thumbnail}','${book.url}')|" class="btn btn-outline-warning active">자세히</button>
+									<button th:onclick="|addBookMark('${book.title}','${book.publisher}','${book.authors}','${book.thumbnail}','${book.url}','${book.isbn}')|" class="btn btn-outline-warning active">북마크</button>
+								</td>
 							</tr>
 							<tr th:if="${pageHelper.empty}">
-								<td colspan="5">검색결과가 없습니다.</td>
+								<td colspan="6">검색결과가 없습니다.</td>
 							</tr>
 						</tbody>
 					</table>

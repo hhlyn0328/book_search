@@ -6,3 +6,14 @@ function StringFormat() {
 	}
 	return expression;
 }
+
+function logout(){
+	$.ajax({
+		url: "/logout",
+		method: "POST",
+		success: function(){
+			alert("로그아웃 되었습니다.");
+			location.reload();
+		}
+	})
+}
