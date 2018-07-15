@@ -1,16 +1,8 @@
 .log {background: #001b4a;}
 .sign {background: #3b3b3b;}
 
-.content-wrapper {
+.log .content-wrapper, .sign .content-wrapper {
     padding: 2rem 1.5rem;
-}
-.content-wrapper {
-
-    margin-left: 215px;
-    min-height: 100vh;
-    padding: 2rem 1rem;
-    transition: all .8s ease;
-    width: calc(100% - 215px);
 }
 
 .login {
@@ -27,4 +19,22 @@
 .full-page-wrapper {
     margin-left: 0;
     width: 100%;
+}
+
+.cancela,.cancela:link,.cancela:visited,.cancela:focus,.cancela:active{
+    color: inherit !important;
+}
+
+dd.info{
+	float:left;
+	width:30%;
+}
+
+dd.content{
+	float:left;
+	width:60%;
+}
+
+table th{
+	text-align:center;
 }

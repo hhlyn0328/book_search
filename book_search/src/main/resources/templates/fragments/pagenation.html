@@ -4,18 +4,26 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <body th:fragment="mainBody">
-	<nav th:fragment="pagenation" th:if="${!pageHelper.empty}">
-		<ul class="pagination justify-content-center">
-			<li class="page-item" th:if="${!pageHelper.start}"><button
-					class="page-link" th:onclick="|move(${pageHelper.beginPageNum-1})|">이전</button></li>
-			<li class="page-item"
-				th:classappend="${pageHelper.currentPageNum == i}? active : ''"
-				th:each="i : ${#numbers.sequence(pageHelper.beginPageNum, pageHelper.endPageNum)}">
-				<button class="page-link" th:text="${i}" th:onclick="|move(${i})|"></button>
-			</li>
-			<li class="page-item" th:if="${!pageHelper.end}"><button
-					class="page-link" th:onclick="|move(${pageHelper.endPageNum+1})|">다음</button></li>
-		</ul>
-	</nav>
+	<div class="row" th:fragment="pagenation" th:if="${!pageHelper.empty}">
+		<div class="col-md-4">
+			<span th:utext="'페이지  ' + ${pageHelper.currentPageNum} + ' / ' + ${pageHelper.totalPageNum} + ' ( 총 ' + ${pageHelper.totalSize} + ' 개 ) '"></span>
+		</div>		
+		<div class="col-md-8">
+			<nav >		
+				<ul class="pagination justify-content-end">
+					<li class="page-item" th:if="${!pageHelper.start}"><button
+							class="page-link" th:onclick="|move(${pageHelper.beginPageNum-1})|">이전</button></li>
+					<li class="page-item"
+						th:classappend="${pageHelper.currentPageNum == i}? active : ''"
+						th:each="i : ${#numbers.sequence(pageHelper.beginPageNum, pageHelper.endPageNum)}">
+						<button class="page-link" th:text="${i}" th:onclick="|move(${i})|"></button>
+					</li>
+					<li class="page-item" th:if="${!pageHelper.end}"><button
+							class="page-link" th:onclick="|move(${pageHelper.endPageNum+1})|">다음</button></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+
 </body>
 </html>

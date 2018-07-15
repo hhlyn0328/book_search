@@ -5,6 +5,8 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+//KakaoAPI 결과 저장을 위한 model
+
 @Getter
 @Setter
 public class Book {

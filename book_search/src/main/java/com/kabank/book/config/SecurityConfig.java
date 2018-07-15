@@ -23,6 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception
 	{
+		//book 하위 url 은 로그인 후 사용가능
 		http.authorizeRequests()
 			.antMatchers("/book/**").authenticated()
 			.anyRequest().permitAll();

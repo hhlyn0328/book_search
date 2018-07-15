@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kabank.book.model.Member;
 import com.kabank.book.model.Role;
@@ -23,11 +24,18 @@ public class MemberController {
 	@Autowired
 	PasswordEncoder pwEncoder;
 	
+	@RequestMapping("/")
+	public ModelAndView home() {
+		ModelAndView view = new ModelAndView();
+		view.setViewName("redirect:/book/search");
+		return view;
+	}
 	@GetMapping("/join")
 	public void join() { 
 
 	}
 	
+	//회원가입 저장	
 	@PostMapping("/join")
 	public String create(@ModelAttribute("member") Member member) {
 		Role role = new Role();

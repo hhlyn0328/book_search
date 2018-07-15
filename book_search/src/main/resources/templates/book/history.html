@@ -13,6 +13,7 @@
 <script th:inline="javascript">
 /*<![CDATA[*/
 
+	var pageUri = /*[[${pageUri}]]*/ '';
 	var page = /*[[${pageHelper.currentPageNum}]]*/ 1;
 	var pageSize = /*[[${pageHelper.pageSize}]]*/ 10;
 		
@@ -27,10 +28,8 @@
 	}
 	
 	function call(){
-		debugger;
 		var uri = StringFormat("{0}?page={1}&pageSize={2}",
 				pageUri, page, pageSize);
-		
 		location.href = uri;
 	}
 
@@ -57,25 +56,35 @@
 			<div class="card">
 				<div class="card-body">					
 					<table class="table table-bordered" style="margin-top: 20px;">
+						<colgroup>								
+								<col style="width:5%">
+								<col style="width:35%">
+								<col style="width:15%">
+								<col style="width:25%">
+								<col style="width:20%">
+							</colgroup>
 						<thead class="thead-dark">
 							<tr>
-								<th scope="col">검색일</th>
+								<th scope="col">#</th>
 								<th scope="col">제목</th>
 								<th scope="col">출판사</th>
 								<th scope="col">작가</th>
-								<th scope="col">#</th>
+								<th scope="col">검색일</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="history : ${histories}">
-								<td th:text="${history.createDate}"></td>
-								<td><a th:text="${history.title}" th:href="@{${history.url}}" target="_blank"></a></td>
-								<td th:text="${history.authors}"></td>
+							<tr th:each="history, i : ${histories}">
+								<td th:text="(${pageHelper.currentPageNum}-1)*${pageHelper.pageSize}+${i.count}"></td>
+								<td>
+									<img th:attr="src=@{${history.thumbnail}}" style="height:30px;" />
+									<a class="cancela font-weight-bold" th:text="${history.title}" th:href="@{${history.url}}" target="_blank"></a>
+								</td>
 								<td th:text="${history.publisher}"></td>
-								<td><img th:attr="src=@{${history.thumbnail}}" /></td>								
+								<td th:text="${history.authors}"></td>
+								<td th:text="${#temporals.format(history.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>						
 							</tr>
 							<tr th:if="${pageHelper.empty}">
-								<td colspan="6">검색결과가 없습니다.</td>
+								<td colspan="5">검색결과가 없습니다.</td>
 							</tr>
 						</tbody>
 					</table>

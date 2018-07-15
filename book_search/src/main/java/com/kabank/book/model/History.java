@@ -1,6 +1,6 @@
 package com.kabank.book.model;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -42,7 +41,7 @@ public class History {
 	private String thumbnail;
 		
 	@CreationTimestamp
-	private Timestamp createDate;
+	private LocalDateTime createDate;
 
 	private Long uid;
 

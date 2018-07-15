@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Login</title>
+<title>로그인</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
@@ -19,10 +19,6 @@
                 <div class="form-group">
                   <input type="text" id="username" name="username"  class="form-control p_input" th:placeholder="Username"  /> 
                 </div>
-                <div th:if="${param.error != null}">
-					<h2>Invalid Username or password</h2>
-					<h2 th:value="${param.error}" ></h2>
-				</div>
                 <div class="form-group">
                   <input type="password" class="form-control p_input" th:placeholder="Password" id="password" name="password" />
                 </div>
@@ -30,6 +26,9 @@
                 <div class="form-group d-flex justify-content-end">
                   <a th:href="@{/join}" class="forgot-pass">회원가입</a>
                 </div>
+                <div th:if="${param.error != null}">
+					<h5 style="color:red">Invalid Username or password</h5>
+				</div>
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary btn-block enter-btn">로그인</button>
                 </div>

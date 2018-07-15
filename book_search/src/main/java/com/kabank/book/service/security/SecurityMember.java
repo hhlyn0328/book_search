@@ -13,6 +13,8 @@ import com.kabank.book.model.Role;
 import lombok.Getter;
 import lombok.Setter;
 
+//spring security 사용을 위한 userdetail
+
 @Getter
 @Setter
 public class SecurityMember extends User{

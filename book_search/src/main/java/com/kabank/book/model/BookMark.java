@@ -1,6 +1,6 @@
 package com.kabank.book.model;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,7 +45,7 @@ public class BookMark {
 	private String thumbnail;
 		
 	@CreationTimestamp
-	private Timestamp createDate;
+	private LocalDateTime createDate;
 
 	private Long uid;
 

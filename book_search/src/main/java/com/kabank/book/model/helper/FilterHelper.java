@@ -4,6 +4,8 @@ package com.kabank.book.model.helper;
 import lombok.Getter;
 import lombok.Setter;
 
+//pageable 사용 불가한 api 를 위한 필터
+
 @Getter
 @Setter
 public class FilterHelper {

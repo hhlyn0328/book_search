@@ -48,6 +48,7 @@ public class BookController {
 	@Autowired
 	BookMarkRepository bookMarkRepository; 
 	
+	//책 검색 
 	@GetMapping("/search")
 	public ModelAndView search(HttpServletRequest request, 
 			@RequestParam(value="searchField", defaultValue="all") String searchField,
@@ -74,6 +75,7 @@ public class BookController {
 		return modelAndView;
 	}
 	
+	//검색 히스토리 조회
 	@GetMapping("/history")
 	public ModelAndView history(HttpServletRequest request, 
 			@RequestParam(value="page", defaultValue="1") int page,
@@ -84,15 +86,17 @@ public class BookController {
 		Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.Direction.DESC, "createDate");
 		
 		Page<History> histories = historyRepository.findByUid(member.getId(), pageable);
-		PageHelper pageHelper = new PageHelper(page, pageSize, histories.getTotalPages());
+		PageHelper pageHelper = new PageHelper(page, pageSize, histories.getTotalElements());
 		
 		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("pageUri", request.getRequestURI());
 		modelAndView.addObject("pageHelper", pageHelper);
 		modelAndView.addObject("histories", histories.getContent());
 		modelAndView.setViewName("book/history");
 		return modelAndView;
 	}
 	
+	//검색 히스토리 추가
 	@ResponseBody
 	@PostMapping("/history")
 	public String addHistory(HttpServletRequest request, 
@@ -118,25 +122,32 @@ public class BookController {
 		return "Success";
 	}
 	
+	//북마크 조회
 	@GetMapping("/bookmark")
 	public ModelAndView bookmark(HttpServletRequest request, 
 			@RequestParam(value="page", defaultValue="1") int page,
-			@RequestParam(value="pageSize", defaultValue="10") int pageSize) {
+			@RequestParam(value="pageSize", defaultValue="10") int pageSize,
+			@RequestParam(value="sortField", defaultValue="createDate") String sortField,
+			@RequestParam(value="sortDir", defaultValue="DESC") String sortDir) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Member member = memberRepository.findByUid(auth.getName());
-		Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.Direction.DESC, "createDate");
+		Pageable pageable = PageRequest.of(page - 1, pageSize, sortDir == "ASC" ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
 		
 		Page<BookMark> bookmarks = bookMarkRepository.findByUid(member.getId(), pageable);
-		PageHelper pageHelper = new PageHelper(page, pageSize, bookmarks.getTotalPages());
+		PageHelper pageHelper = new PageHelper(page, pageSize, bookmarks.getTotalElements());
 		
 		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("pageUri", request.getRequestURI());
 		modelAndView.addObject("pageHelper", pageHelper);
+		modelAndView.addObject("sortDir", sortDir);
+		modelAndView.addObject("sortField", sortField);
 		modelAndView.addObject("bookmarks", bookmarks.getContent());
 		modelAndView.setViewName("book/bookmark");
 		return modelAndView;
 	}
 	
+	//북마크 추가
 	@ResponseBody
 	@PostMapping("/bookmark")
 	public String addBookmark(HttpServletRequest request, 
@@ -169,10 +180,14 @@ public class BookController {
 				bookMarkRepository.save(mark);
 				return "Success";
 			}			
+			else {
+				return "Duplicate";
+			}
 		}
 		return "Fail";
 	}
 	
+	//북마크 제거
 	@ResponseBody
 	@PostMapping("/bookmark/remove")
 	public String addBookmark(HttpServletRequest request, 

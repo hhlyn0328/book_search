@@ -26,18 +26,27 @@ import com.kabank.book.model.helper.PageHelper;
 @Service("kakaoBookSearchService")
 public class KakaoBookServiceImpl implements BookService {
 	
+	//kakao developer App Key
 	@Value("${kakao.restapi.appkey}")
 	private String apiAppKey;
 	
+	//api protocol
 	@Value("${kakao.restapi.booksearch.scheme}")
 	private String scheme;
 	
+	//api host
 	@Value("${kakao.restapi.booksearch.host}")
 	private String host;
 	
+	//api api uri
 	@Value("${kakao.restapi.booksearch.path}")
 	private String path;
 	
+	//thumbnail 이 없을 때, 보여줄 이미지
+	@Value("${kakao.restapi.booksearch.thumbnail.default}")
+	private String thumbnailDefault;
+	
+	//api 호출 결과 json 을 List<Book> 형태로 변환
 	public List<Book> findByFilter(FilterHelper filter, PageHelper page){
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		
@@ -54,7 +63,11 @@ public class KakaoBookServiceImpl implements BookService {
 			BeanUtils.copyProperties(new PageHelper(filter.getPage(),filter.getPageSize(),Integer.parseInt(meta.get("pageable_count").toString())), page);
 			JsonNode documents = node.get("documents");
 			documents.forEach(d -> {
-				books.add(mapper.convertValue(d, Book.class));
+				Book book = mapper.convertValue(d, Book.class);
+				if(book.getThumbnail() == "") { 
+					book.setThumbnail(thumbnailDefault);
+				}
+				books.add(book);
 			});
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -64,6 +77,7 @@ public class KakaoBookServiceImpl implements BookService {
 		return books;
 	}
 	
+	//kakao api 호출
 	private JsonNode search(MultiValueMap<String, String> params) throws IOException {
 		RestTemplate restTemplate = new RestTemplate();
 		URI uri = UriComponentsBuilder.newInstance()
