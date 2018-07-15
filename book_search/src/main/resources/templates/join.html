@@ -14,19 +14,25 @@
           <div class="login col-lg-3 mx-auto">
             <div class="card-body px-5 py-5">
               <h3 class="card-title text-center mb-3">Kakao Book Search</h3>
-              <form method="POST" class="form-signin">
+              <form method="POST" class="form-signin" th:object="${member}">
                 <div class="form-group">
-                  <input type="text" id="uid" name="uid"  class="form-control p_input" th:placeholder="Username"  /> 
+                  <input type="text" id="uid" name="uid" th:field="*{uid}" class="form-control p_input" th:placeholder="아이디" th:classappend="${#fields.hasErrors('uid')} ? 'is-invalid' : ''" /> 
+                  <div class="invalid-feedback" th:if="${#fields.hasErrors('uid')}" >
+			        <span th:errors="*{uid}"></span>
+			      </div>
                 </div>                
                 <div class="form-group">
-                  <input type="text" id="uname" name="uname"  class="form-control p_input" th:placeholder="Name"  /> 
+                  <input type="text" id="uname" name="uname"  th:field="*{uname}" class="form-control p_input" th:placeholder="이름" th:classappend="${#fields.hasErrors('uname')} ? 'is-invalid' : ''" /> 
+                  <div class="invalid-feedback" th:if="${#fields.hasErrors('uname')}" >
+			        <span th:errors="*{uname}"></span>
+			      </div>
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control p_input" th:placeholder="Password" id="upw" name="upw" />
+                  <input type="password" class="form-control p_input" th:field="*{upw}" th:placeholder="비밀번호" id="upw" name="upw" th:classappend="${#fields.hasErrors('upw')} ? 'is-invalid' : ''" />
+                  <div class="invalid-feedback" th:if="${#fields.hasErrors('upw')}" >
+			        <span th:errors="*{upw}"></span>
+			      </div>
                 </div>
-                <div th:if="${param.error != null}">
-					<h5 style="color:red">Invalid Username or password</h5>
-				</div>
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary btn-block enter-btn">회원가입</button>
