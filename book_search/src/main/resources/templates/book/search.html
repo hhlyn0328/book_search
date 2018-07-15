@@ -134,8 +134,8 @@
 				<div class="card-body">
 					<div class="btn-group float-right mb-2" role="group" aria-label="Basic example">
 					  <button type="button" th:onclick="|sort('accuracy')|" class="btn btn-outline-warning" th:classappend="${filterHelper.sortField == 'accuracy'}? active : ''">정확도순<span class="oi oi-sort-descending"></span></button>
-					  <button type="button" th:onclick="|sort('recency')|" class="btn btn-outline-warning" th:classappend="${filterHelper.sortField == 'recency'}? active : ''">판매량순<span class="oi oi-sort-descending"></span></button>
-					  <button type="button" th:onclick="|sort('sales')|" class="btn btn-outline-warning" th:classappend="${filterHelper.sortField == 'sales'}? active : ''">발행일순<span class="oi oi-sort-descending"></span></button>
+					  <button type="button" th:onclick="|sort('recency')|" class="btn btn-outline-warning" th:classappend="${filterHelper.sortField == 'sales'}? active : ''">판매량순<span class="oi oi-sort-descending"></span></button>
+					  <button type="button" th:onclick="|sort('sales')|" class="btn btn-outline-warning" th:classappend="${filterHelper.sortField == 'recency'}? active : ''">발행일순<span class="oi oi-sort-descending"></span></button>
 					</div>
 					<table class="table table-bordered" style="margin-top: 20px;">
 						<thead class="thead-dark">
@@ -151,19 +151,19 @@
 									<dl>
 										<!-- <dt><a th:text="${book.title}" th:href="@{${book.url}}" target="_blank"></a></dt> -->
 										<dt class="mb-2">
-											<a class="cancela" th:text="${book.title}" th:href="@{${book.url}}" target="_blank"
+											<a class="cancela" th:utext="${book.title}" th:href="@{${book.url}}" target="_blank"
 												th:onclick="|addHistory('${book.title}','${book.publisher}','${#strings.listJoin(book.authors, ', ')}','${book.thumbnail}','${book.url}')|" ></a>
 										</dt>
 										<dd class="info">
 											<div>
-												<p class="mb-0"><span th:text="${#strings.listJoin(book.authors, ', ')}"></span> | 지음</p>
-												<p class="mb-0"><span th:text="${book.publisher}"></span> | 펴냄</p>
+												<p class="mb-0"><span th:utext="${#strings.listJoin(book.authors, ', ')}"></span> | 지음</p>
+												<p class="mb-0"><span th:utext="${book.publisher}"></span> | 펴냄</p>
 												<button th:onclick="|addBookMark('${book.title}','${book.publisher}','${#strings.listJoin(book.authors, ', ')}','${book.thumbnail}','${book.url}','${book.isbn}')|" 
 													class="btn btn-warning btn-sm mt-2"><span class="oi oi-star"></span>북마크에 추가</button>
 											</div>
 										</dd>
 										<dd class="content">
-											<span th:text="${book.contents}"></span>
+											<span th:utext="${book.contents}"></span>
 										</dd>
 									</dl>							
 								</td>								

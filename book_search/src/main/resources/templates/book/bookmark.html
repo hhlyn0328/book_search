@@ -119,11 +119,11 @@
 							<tr th:each="bookmark : ${bookmarks}">
 								<td>
 									<img th:attr="src=@{${bookmark.thumbnail}}" style="height:30px;" />
-									<a class="cancela" th:text="${bookmark.title}" th:href="@{${bookmark.url}}" target="_blank"></a>
+									<a class="cancela" th:utext="${bookmark.title}" th:href="@{${bookmark.url}}" target="_blank"></a>
 								</td>
-								<td th:text="${bookmark.publisher}"></td>
-								<td th:text="${bookmark.authors}"></td>
-								<td th:text="${#temporals.format(bookmark.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+								<td th:utext="${bookmark.publisher}"></td>
+								<td th:utext="${bookmark.authors}"></td>
+								<td th:utext="${#temporals.format(bookmark.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								<td class="text-center">
 									<button th:onclick="|deleteBookMark('${bookmark.no}')|" class="btn btn-danger btn-sm">해제</button>
 								</td>							

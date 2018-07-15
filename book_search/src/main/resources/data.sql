@@ -1,1 +1,1 @@
-INSERT INTO `member` (`id`, `regdate`, `uid`, `uname`, `updatedate`, `upw`) VALUES (1, '2018-07-15 18:45:43', 'user', 'user', '2018-07-15 18:45:43', '$2a$10$u3Tlag7PqI5BT43Dj0No8OLXIg0/VN.4HXfPYOpfGGhsBYAcZQ/ZC');
+INSERT INTO `member` (`id`, `regdate`, `uid`, `uname`, `updatedate`, `upw`) VALUES (0, '2018-07-15 18:45:43', 'user', 'user', '2018-07-15 18:45:43', '$2a$10$u3Tlag7PqI5BT43Dj0No8OLXIg0/VN.4HXfPYOpfGGhsBYAcZQ/ZC');

@@ -74,14 +74,14 @@
 						</thead>
 						<tbody>
 							<tr th:each="history, i : ${histories}">
-								<td th:text="(${pageHelper.currentPageNum}-1)*${pageHelper.pageSize}+${i.count}"></td>
+								<td th:utext="(${pageHelper.currentPageNum}-1)*${pageHelper.pageSize}+${i.count}"></td>
 								<td>
 									<img th:attr="src=@{${history.thumbnail}}" style="height:30px;" />
-									<a class="cancela font-weight-bold" th:text="${history.title}" th:href="@{${history.url}}" target="_blank"></a>
+									<a class="cancela font-weight-bold" th:utext="${history.title}" th:href="@{${history.url}}" target="_blank"></a>
 								</td>
-								<td th:text="${history.publisher}"></td>
-								<td th:text="${history.authors}"></td>
-								<td th:text="${#temporals.format(history.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>						
+								<td th:utext="${history.publisher}"></td>
+								<td th:utext="${history.authors}"></td>
+								<td th:utext="${#temporals.format(history.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>						
 							</tr>
 							<tr th:if="${pageHelper.empty}">
 								<td colspan="5">검색결과가 없습니다.</td>
