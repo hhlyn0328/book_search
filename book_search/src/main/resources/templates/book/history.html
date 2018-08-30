@@ -4,7 +4,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/main_layout">
 <th:block layout:fragment="html_head">
-	<title>Book Search</title>
+	<title>책 검색 이력 조회</title>
 </th:block>
 
 <th:block layout:fragment="custom_css">
@@ -28,11 +28,6 @@
 		
 	function move(num){
 		page = num;
-		call();
-	}
-	
-	function changeSize(size){
-		pageSize = size;
 		call();
 	}
 	
@@ -90,7 +85,7 @@
 								</td>
 								<td th:utext="${history.publisher}"></td>
 								<td th:utext="${history.authors}"></td>
-								<td th:utext="${#temporals.format(history.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>						
+								<td th:utext="${#temporals.format(history.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>						
 							</tr>
 							<tr th:if="${pageHelper.empty}">
 								<td colspan="5">검색결과가 없습니다.</td>

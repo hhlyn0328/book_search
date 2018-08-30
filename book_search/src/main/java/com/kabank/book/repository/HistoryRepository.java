@@ -9,5 +9,5 @@ import com.kabank.book.model.History;
 public interface HistoryRepository extends JpaRepository<History, Long> {
 	
 	Page<History> findAll(Pageable pageable);
-	Page<History> findByUid (Long uid, Pageable pageable);
+	Page<History> findByMemberId (Long memberId, Pageable pageable);
 }

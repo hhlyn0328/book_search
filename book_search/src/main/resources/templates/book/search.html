@@ -47,46 +47,46 @@
 		call();
 	}
 	
-	function changeSize(size){
-		pageSize = size;
-		call();
-	}
-	
 	function call(){
 		var uri = StringFormat("{0}?searchField={1}&searchValue={2}&sortField={3}&sortDir={4}&page={5}&pageSize={6}",
-				pageUri, searchField, searchValue, sortField, sortDir, page, pageSize);
+				pageUri, searchField, encodeURI(searchValue), sortField, sortDir, page, pageSize);
 
 		
 		location.href = uri;
 	}
 	
 	function addHistory(title, publisher, authors, thumbnail, detailUrl){
-		 $.ajax({
+		$("#hTitle").val(title);
+		$("#hPublisher").val(publisher);
+		$("#hAuthors").val(authors);
+		$("#hThumbnail").val(thumbnail);
+		$("#hUrl").val(detailUrl);
+		$.ajax({
 			url: "/book/history",
-			data: { title : title,
-				publisher : publisher,
-				authors : authors,
-				thumbnail : thumbnail,
-				detailUrl : detailUrl },
+			data: $("#setHistoryForm").serialize(),
 			method: "POST"
 		}) 
 	}
 	
 	function addBookMark(title, publisher, authors, thumbnail, detailUrl, isbn){
-		 $.ajax({
+		$("#mTitle").val(title);
+		$("#mPublisher").val(publisher);
+		$("#mAuthors").val(authors);
+		$("#mThumbnail").val(thumbnail);
+		$("#mUrl").val(detailUrl);
+		$("#mIsbn").val(isbn);
+		$.ajax({
 			url: "/book/bookmark",
-			data: { title : title,
-				publisher : publisher,
-				authors : authors,
-				thumbnail : thumbnail,
-				detailUrl : detailUrl ,
-				isbn : isbn},
+			data: $("#setBookMakrForm").serialize(),
 			method: "POST",
 			success: function(result){
-				if(result == "Success"){
+				if(result === "Success"){
 					alert("추가되었습니다.");
-				}else if(result == "Duplicate"){
+				}else if(result === "Duplicate"){
 					alert("이미 추가된 책 입니다.");
+				}else{
+					alert("북마크 추가에 실패했습니다.");
+					location.reload();
 				}
 			}
 		}) 
@@ -179,6 +179,22 @@
 		</div>
 
 	</div>
+	<form action="#" th:action="@{/book/history}" id="setHistoryForm" th:object="${history}" method="post">
+		<input type="hidden" id="hTitle" th:field="*{title}"/>				
+		<input type="hidden" id="hPublisher" th:field="*{publisher}"/>
+		<input type="hidden" id="hAuthors" th:field="*{authors}"/>				
+		<input type="hidden" id="hThumbnail" th:field="*{thumbnail}"/>
+		<input type="hidden" id="hUrl" th:field="*{url}"/>	
+	</form>
+	
+	<form action="#" th:action="@{/book/bookmark}" id="setBookMakrForm" th:object="${bookmark}" method="post">
+		<input type="hidden" id="mTitle" th:field="*{title}"/>				
+		<input type="hidden" id="mPublisher" th:field="*{publisher}"/>
+		<input type="hidden" id="mAuthors" th:field="*{authors}"/>				
+		<input type="hidden" id="mThumbnail" th:field="*{thumbnail}"/>
+		<input type="hidden" id="mUrl" th:field="*{url}"/>				
+		<input type="hidden" id="mIsbn" th:field="*{isbn}"/>
+	</form>
 </th:block>
 
 </html>

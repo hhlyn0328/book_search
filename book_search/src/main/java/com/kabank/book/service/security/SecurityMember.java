@@ -22,12 +22,12 @@ public class SecurityMember extends User{
 	private static final String ROLE_PREFIX = "ROLE_";
 	
 	public SecurityMember(Member member) {
-		super(member.getUid(), member.getUpw(), makeGrantedAuthority(member.getRoles()));
+		super(member.getUid(), member.getUpw(), makeGrantedAuthority(member.getRole()));
 	}
 		
-	private static List<GrantedAuthority> makeGrantedAuthority(List<Role> roles){
+	private static List<GrantedAuthority> makeGrantedAuthority(Role role){
 		List<GrantedAuthority> list = new ArrayList<>();
-		roles.forEach(role -> list.add(new SimpleGrantedAuthority(ROLE_PREFIX + role.getRoleName())));
+		list.add(new SimpleGrantedAuthority(ROLE_PREFIX + role.getRoleName()));
 		return list;
 	}
 	

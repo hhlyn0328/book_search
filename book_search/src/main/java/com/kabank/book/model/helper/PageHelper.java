@@ -1,13 +1,17 @@
 package com.kabank.book.model.helper;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 // pagenation model
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PageHelper {
 	
 	private long currentPageNum;
@@ -19,9 +23,7 @@ public class PageHelper {
 	private boolean start;
 	private boolean end;
 	private boolean empty;
-	
-	public PageHelper() { }
-	
+		
 	public PageHelper(long page, long pageSize, long totalCount) {
 		this.currentPageNum = page;
 		this.pageSize = pageSize;

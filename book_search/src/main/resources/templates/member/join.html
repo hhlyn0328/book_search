@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>회원가입ㄴ</title>
+<title>회원가입</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+<script th:src="@{/js/jquery.min.js}"></script>
 </head>
 <body class="sign">
   <div class="container-scroller">
@@ -47,6 +48,18 @@
   </div>
 </body>
 
+<script th:inline="javascript">
+/*<![CDATA[*/
+	var msg = /*[[${msg}]]*/ '';
+	
+	$(document).ready(function(){
+		if(msg != '' && msg != null){
+			alert(msg);
+		}
+	})
+	
+	/*]]>*/
+</script>
 
 
 

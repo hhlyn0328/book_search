@@ -1,7 +1,6 @@
 package com.kabank.book.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,15 +9,18 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.Length;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -26,38 +28,37 @@ import lombok.ToString;
 @Setter
 @Entity
 @ToString
-@Table(name="member")
-@EqualsAndHashCode(of = "uid")
+@Table(name="members")
+@EqualsAndHashCode(of = "id")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotNull
+	@Length(min = 3, max = 50)
 	@Column(nullable = false, unique = true, length=50)
 	private String uid;
 	
+	@NotNull
+	@Length(min = 3)
 	@Column(nullable = false, length=200)
 	private String upw;
 	
-	@Column(nullable = false, unique = true, length=50)
+	@NotNull
+	@Length(min = 3, max = 50)
+	@Column(nullable = false, length=50)
 	private String uname;
 	
 	@CreationTimestamp
-	private LocalDateTime regdate;
+	private LocalDateTime createdAt;
 	
 	@UpdateTimestamp
-	private LocalDateTime updatedate;
+	private LocalDateTime updatedAt;
 	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinColumn(name="uid")
-	private List<Role> roles;
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "uid")
-	private List<History> histories;
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "uid")
-	private List<BookMark> BookMarks;
+	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private Role role;
 }

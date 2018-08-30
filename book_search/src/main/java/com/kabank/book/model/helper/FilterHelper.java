@@ -1,13 +1,17 @@
 package com.kabank.book.model.helper;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 //pageable 사용 불가한 api 를 위한 필터
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class FilterHelper {
 	
 	private String searchField;
@@ -17,12 +21,4 @@ public class FilterHelper {
 	private int page;
 	private int pageSize;	
 	
-	public FilterHelper(String searchField, String searchValue, String sortField, String sortDir, int page, int size) {
-		this.searchField = searchField;
-		this.searchValue = searchValue;
-		this.sortField = sortField;
-		this.sortDir = sortDir;
-		this.page = page;
-		this.pageSize = size;
-	}
 }

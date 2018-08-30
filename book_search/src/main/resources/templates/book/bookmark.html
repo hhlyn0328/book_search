@@ -4,7 +4,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorator="layout/main_layout">
 <th:block layout:fragment="html_head">
-	<title>Book Search</title>
+	<title>북마크</title>
 </th:block>
 
 <th:block layout:fragment="custom_css">
@@ -16,7 +16,7 @@
 	var pageUri = /*[[${pageUri}]]*/ '';
 	var page = /*[[${pageHelper.currentPageNum}]]*/ 1;
 	var pageSize = /*[[${pageHelper.pageSize}]]*/ 10;
-	var sortField = /*[[${sortField}]]*/ 'createDate';
+	var sortField = /*[[${sortField}]]*/ 'createdAt';
 	var sortDir = /*[[${sortDir}]]*/ 'DESC';
 	var token = /*[[${_csrf.token}]]*/ '';
 	var header = /*[[${_csrf.headerName}]]*/ '';
@@ -34,20 +34,14 @@
 	}
 	
 	function sort(field){
-		debugger;
 		var newSortDir = 'DESC';
-		if(sortField == field){
-			if(sortDir == 'DESC'){
+		if(sortField === field){
+			if(sortDir === 'DESC'){
 				newSortDir = 'ASC';
 			}
 		}
 		sortField = field;
 		sortDir = newSortDir;
-		call();
-	}
-	
-	function changeSize(size){
-		pageSize = size;
 		call();
 	}
 	
@@ -65,7 +59,7 @@
 			data: { bookmarkNo : no },
 			method: "POST",
 			success: function(result){
-				if(result == "Success"){
+				if(result === "Success"){
 					location.reload();
 				}		
 			}
@@ -109,8 +103,8 @@
 								</th>
 								<th scope="col">출판사</th>
 								<th scope="col">작가</th>
-								<th scope="col" style="cursor:pointer;" th:onclick="|sort('createDate')|">
-									검색일 <span th:classappend="${sortField == 'createDate'} ? (${sortDir == 'ASC'} ? 'oi oi-caret-top' : 'oi oi-caret-bottom' ) : '' "></span>
+								<th scope="col" style="cursor:pointer;" th:onclick="|sort('createdAt')|">
+									검색일 <span th:classappend="${sortField == 'createdAt'} ? (${sortDir == 'ASC'} ? 'oi oi-caret-top' : 'oi oi-caret-bottom' ) : '' "></span>
 								</th>
 								<th scope="col">해제</th>
 							</tr>
@@ -123,9 +117,9 @@
 								</td>
 								<td th:utext="${bookmark.publisher}"></td>
 								<td th:utext="${bookmark.authors}"></td>
-								<td th:utext="${#temporals.format(bookmark.createDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+								<td th:utext="${#temporals.format(bookmark.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
 								<td class="text-center">
-									<button th:onclick="|deleteBookMark('${bookmark.no}')|" class="btn btn-danger btn-sm">해제</button>
+									<button th:onclick="|deleteBookMark('${bookmark.id}')|" class="btn btn-danger btn-sm">해제</button>
 								</td>							
 							</tr >
 							<tr th:if="${pageHelper.empty}">
