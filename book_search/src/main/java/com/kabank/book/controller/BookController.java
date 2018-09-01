@@ -33,7 +33,9 @@ import com.kabank.book.model.helper.PageHelper;
 import com.kabank.book.model.helper.PageableApiResponse;
 import com.kabank.book.repository.BookMarkRepository;
 import com.kabank.book.repository.HistoryRepository;
+import com.kabank.book.service.BookMarkService;
 import com.kabank.book.service.BookService;
+import com.kabank.book.service.HistoryService;
 import com.kabank.book.service.security.SecurityMemberService;
 
 
@@ -48,10 +50,10 @@ public class BookController {
 	SecurityMemberService securityMemberService;
 
 	@Autowired
-	HistoryRepository historyRepository;
+	HistoryService historyService;
 
 	@Autowired
-	BookMarkRepository bookMarkRepository;
+	BookMarkService bookMarkService;
 	
 	Logger log = LoggerFactory.getLogger("BookController");
 
@@ -99,7 +101,7 @@ public class BookController {
 		}
 
 		Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.Direction.DESC, "createdAt");
-		Page<History> histories = historyRepository.findByMemberId(member.getId(), pageable);
+		Page<History> histories = historyService.findByMemberId(member.getId(), pageable);
 		PageHelper pageHelper = new PageHelper(page, pageSize, histories.getTotalElements());
 		
 		ModelAndView modelAndView = new ModelAndView();
@@ -127,7 +129,7 @@ public class BookController {
 		}
 		
 		history.setMember(member);
-		historyRepository.save(history);
+		historyService.save(history);
 		return "Success";
 	}
 
@@ -146,7 +148,7 @@ public class BookController {
 		
 		Pageable pageable = PageRequest.of(page - 1, pageSize,
 				"ASC".equals(sortDir) ? Sort.Direction.ASC : Sort.Direction.DESC, sortField);
-		Page<BookMark> bookmarks = bookMarkRepository.findByMemberId(member.getId(), pageable);
+		Page<BookMark> bookmarks = bookMarkService.findByMemberId(member.getId(), pageable);
 		PageHelper pageHelper = new PageHelper(page, pageSize, bookmarks.getTotalElements());
 		
 		ModelAndView modelAndView = new ModelAndView();
@@ -177,9 +179,9 @@ public class BookController {
 
 		bookMark.setIsbn(getKeyIsbn(bookMark.getIsbn()));
 		
-		if (bookMarkRepository.countByMemberIdAndIsbn(member.getId(), bookMark.getIsbn()) == 0) {
+		if (bookMarkService.countByMemberIdAndIsbn(member.getId(), bookMark.getIsbn()) == 0) {
 			bookMark.setMember(member);
-			bookMarkRepository.save(bookMark);
+			bookMarkService.save(bookMark);
 			return "Success";
 		}
 		
@@ -201,10 +203,15 @@ public class BookController {
 	@PostMapping("/bookmark/remove")
 	public String addBookmark(HttpServletRequest request, @RequestParam(value = "bookmarkNo") String bookmarkNo) {
 
+		Member member = securityMemberService.getLoginUser();
+		if(member == null) {
+			return "Fail";
+		}
+		
 		try {
-			Optional<BookMark> bookMarkOptional = bookMarkRepository.findById(Long.valueOf(bookmarkNo));
+			Optional<BookMark> bookMarkOptional = bookMarkService.findByMemberIdAndId(member.getId(), Long.valueOf(bookmarkNo));
 			if(bookMarkOptional.isPresent()) {
-				bookMarkRepository.delete(bookMarkOptional.get());
+				bookMarkService.delete(bookMarkOptional.get());
 				return "Success";
 			}			
 		} catch (Exception e) {

@@ -1,19 +1,19 @@
-package com.kabank.book.repository;
+package com.kabank.book.service;
 
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.kabank.book.model.BookMark;
 
-public interface BookMarkRepository extends JpaRepository<BookMark, Long> {
-	
+public interface BookMarkService {
 	Optional<BookMark> findById(Long Id);
 	Page<BookMark> findAll(Pageable pageable);
 	Page<BookMark> findByMemberId (Long memberId, Pageable pageable);
 	Long countByMemberIdAndIsbn (Long memberId, String isbn);
 	BookMark findByMemberIdAndIsbn (Long memberId, String isbn);
-	Optional<BookMark> findByMemberIdAndId (Long memberId, Long Id);
+	Optional<BookMark> findByMemberIdAndId(Long memberId, Long Id);
+	void save(BookMark bookMark);
+	void delete(BookMark bookMark);
 }

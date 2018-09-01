@@ -54,23 +54,21 @@ public class KakaoBookServiceImpl implements BookService {
 		
 		List<BookDTO> books = bookResponse.getDocuments()
 			.stream()
-			.map(toBook()).collect(Collectors.toList());
+			.map(it -> toBook(it)).collect(Collectors.toList());
 	
 		return new PageableApiResponse<>(books, bookResponse.getMeta().getPageableCount());
 	}
 	
-	private Function<BookSearchResponseDocument, BookDTO> toBook() {
-		return it -> {
-            BookDTO book = new BookDTO();
-            book.setTitle(it.getTitle());
-            book.setContents(it.getContents());
-            book.setUrl(it.getUrl());
-            book.setIsbn(it.getIsbn());
-            book.setAuthors(it.getAuthors());
-            book.setPublisher(it.getPublisher());
-            book.setThumbnail(setThumbnailDefault(it.getThumbnail()));
-            return book;
-        };
+	private BookDTO toBook(BookSearchResponseDocument document) {
+		BookDTO book = new BookDTO();
+		book.setTitle(document.getTitle());
+		book.setContents(document.getContents());
+		book.setUrl(document.getUrl());
+		book.setIsbn(document.getIsbn());
+		book.setAuthors(document.getAuthors());
+		book.setPublisher(document.getPublisher());
+		book.setThumbnail(setThumbnailDefault(document.getThumbnail()));
+		return book;
 	}
 
 	private String setThumbnailDefault(String thumbnail) {
