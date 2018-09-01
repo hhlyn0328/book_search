@@ -47,7 +47,7 @@ public class KakaoBookServiceImpl implements BookService {
 		try {
 			bookResponse = kakaoBookAdapter.search(params);
 		} catch(Exception e) {
-			log.error("KAKAO API 검색 실패 : " + e.getStackTrace());
+			log.error("KAKAO API 검색 실패 : " + e.getMessage());
 			return new PageableApiResponse<BookDTO>(new ArrayList<BookDTO>(), 0);
 
 		}

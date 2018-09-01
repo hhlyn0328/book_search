@@ -215,7 +215,7 @@ public class BookController {
 				return "Success";
 			}			
 		} catch (Exception e) {
-			log.error("북마크 삭제 실패 : " + e.getStackTrace());			
+			log.error("북마크 삭제 실패 : " + e.getMessage());			
 		}
 		return "Fail";
 	}
